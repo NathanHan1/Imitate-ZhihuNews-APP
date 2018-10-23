@@ -1,0 +1,46 @@
+.contentlist {
+    width: 100%;
+    background: #ddd;
+    h2{
+        color: #444;
+        width: 92%;
+        padding-top: 15px;
+        margin: 0 auto 15px;
+        font-size: 18px;
+        font-weight: normal;
+    }
+    a{
+        color: #222;
+        li{
+            box-sizing: border-box;
+            box-shadow: 2px 2px 5px rgba(0,0,0,.2);
+            width: 92%;
+            margin: 10px auto;
+            border-radius: 5px;
+            height: 100px;
+            background: #fff;
+            font-size: 18px;
+            padding: 12px;
+            display: flex;
+            justify-content: space-around;
+            img{
+                flex: 0 0 120px;
+                width: 120px;
+                height: 76px;
+            }
+            p{
+                flex: 1 1 auto;
+                padding-right: 5px;
+                //标题溢出隐藏
+                // text-overflow: ellipsis;
+                // white-space: nowrap;
+                // overflow: hidden;
+                overflow: hidden;
+                &.active{
+                    color: #888;
+                }
+            }
+        }
+    }
+    
+}
