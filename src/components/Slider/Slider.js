@@ -4,7 +4,13 @@ import styles from './Slider.less';
 class Slider extends Component {
     constructor(props) {
         super();
-        const width = document.body.clientWidth;
+        let width
+        if (document.body.clientWidth <= 900) {
+            width = document.body.clientWidth;
+        } else if (document.body.clientWidth > 900) {
+            width = 500;
+        }
+
         this.state = {
             url: 'https://goss3.vcg.com/creative/vcg/400/version23/VCG21gic',
             imgWidth: width,
