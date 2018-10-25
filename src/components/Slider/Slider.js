@@ -4,7 +4,7 @@ import styles from './Slider.less';
 class Slider extends Component {
     constructor(props) {
         super();
-        let width
+        let width;
         if (document.body.clientWidth <= 900) {
             width = document.body.clientWidth;
         } else if (document.body.clientWidth > 900) {
@@ -43,18 +43,22 @@ class Slider extends Component {
     }
 
     getArr() {
-        return this.props.latest.stories.map(item => {
-            return (
-                <li
-                    onTouchEnd={this.linkToContent.bind(this, item.id)}
-                    onTouchStart={this.linkToContentStart.bind(this)}
-                    key={item.id}
-                >
-                    <img width={this.state.imgWidth + 'px'} src={`${this.state.url}${item.id}.jpg`} alt="" />
-                    <p>{item.title}</p>
-                </li>
-            );
-        });
+        return this.props.latest.stories
+            .filter(item => {
+                return item.id && true;
+            })
+            .map(item => {
+                return (
+                    <li
+                        onTouchEnd={this.linkToContent.bind(this, item.id)}
+                        onTouchStart={this.linkToContentStart.bind(this)}
+                        key={item.id}
+                    >
+                        <img width={this.state.imgWidth + 'px'} src={`${this.state.url}${item.id}.jpg`} alt="" />
+                        <p>{item.title}</p>
+                    </li>
+                );
+            });
     }
 
     UNSAFE_componentWillMount() {

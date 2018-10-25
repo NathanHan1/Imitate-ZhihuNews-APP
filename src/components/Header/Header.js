@@ -27,48 +27,55 @@ class Header extends Component {
         content.style.left = '100%';
         setTimeout(() => {
             window.location.hash = '/home';
-        }, 1000);
+        }, 500);
+    }
+
+    componentDidUpdate() {
+        if (this.props.latest.view === 'content') {
+            setTimeout(() => {
+                const domContent = document.getElementsByClassName('content')[0];
+
+                this.scrollLast = domContent.scrollTop;
+                this.refs.header.style.opacity = 1;
+
+                domContent.addEventListener('touchstart', () => {
+                    this.startScroll = domContent.scrollTop;
+                });
+
+                domContent.addEventListener('touchmove', () => {
+                    //startScroll是保存刚开始滑动的Y值
+                    const header = this.refs.header;
+                    if (domContent.scrollTop > this.scrollLast) {
+                        if (header.style.opacity == 0) {
+                            this.scrollLast = domContent.scrollTop;
+                            this.startScroll = domContent.scrollTop;
+                            return;
+                        }
+                        header.style.opacity = 1 - Math.abs(domContent.scrollTop - this.startScroll) / 120;
+
+                        //归零
+                        if (header.style.opacity < 0) header.style.opacity = 0;
+                        header.style.opacity == 0 ? (this.startScroll = domContent.scrollTop) : '';
+                    } else if (domContent.scrollTop < this.scrollLast) {
+                        if (header.style.opacity == 1) {
+                            this.scrollLast = domContent.scrollTop;
+                            this.startScroll = domContent.scrollTop;
+                            return;
+                        }
+                        header.style.opacity = Math.abs(domContent.scrollTop - this.startScroll) / 120;
+
+                        //归1
+                        if (header.style.opacity > 1) header.style.opacity = 1;
+
+                        header.style.opacity == 1 ? (this.startScroll = domContent.scrollTop) : '';
+                    }
+                    this.scrollLast = domContent.scrollTop;
+                });
+            }, 0);
+        }
     }
 
     componentDidMount() {
-        this.scrollLast = window.scrollY;
-        this.refs.header.style.opacity = 1;
-
-        document.addEventListener('touchstart', () => {
-            this.startScroll = window.scrollY;
-        });
-
-        document.addEventListener('scroll', () => {
-            //startScroll是保存刚开始滑动的Y值
-            const header = this.refs.header;
-
-            if (window.scrollY > this.scrollLast) {
-                if (header.style.opacity == 0) {
-                    this.scrollLast = window.scrollY;
-                    this.startScroll = window.scrollY;
-                    return;
-                }
-                header.style.opacity = 1 - Math.abs(window.scrollY - this.startScroll) / 120;
-
-                //归零
-                if (header.style.opacity < 0) header.style.opacity = 0;
-                header.style.opacity == 0 ? (this.startScroll = window.scrollY) : '';
-            } else if (window.scrollY < this.scrollLast) {
-                if (header.style.opacity == 1) {
-                    this.scrollLast = window.scrollY;
-                    this.startScroll = window.scrollY;
-                    return;
-                }
-                header.style.opacity = Math.abs(window.scrollY - this.startScroll) / 120;
-
-                //归1
-                if (header.style.opacity > 1) header.style.opacity = 1;
-
-                header.style.opacity == 1 ? (this.startScroll = window.scrollY) : '';
-            }
-            this.scrollLast = window.scrollY;
-        });
-
         if (document.body.clientWidth >= 900) {
             this.refs.header.style.width = '500px';
         } else if (document.body.clientWidth < 900) {

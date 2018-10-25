@@ -8,10 +8,15 @@ import Content from '../components/Content/Content';
 import { Route } from 'dva/router';
 
 class Home extends Component {
-    render() {
 
+    componentDidMount(){
+        this.refs.home.style.height = document.body.clientHeight + 'px';
+    }
+
+
+    render() {
         return (
-            <div className={styles.home} style={{ paddingTop: 40 + 'px' }}>
+            <div ref="home" className={`${styles.home} home`} style={{ paddingTop: 40 + 'px' }}>
                 <Header match={this.props.match} latest={this.props.latest} dispatch={this.props.dispatch} />
                 <Slider latest={this.props.latest} dispatch={this.props.dispatch} />
                 <ContentList latest={this.props.latest} dispatch={this.props.dispatch} />

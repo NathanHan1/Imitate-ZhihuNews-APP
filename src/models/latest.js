@@ -4,13 +4,14 @@ export default {
     namespace: 'latest',
     state: {
         stories: [],
-        view: 'home'
+        view: 'home',
+        getMore: true
     },
     reducers: {
         created(state, { payload }) {
             return {
                 ...state,
-                stories: payload.stories
+                stories: [...state.stories, ...payload]
             };
         },
         setView(state, { payload }) {
@@ -18,12 +19,34 @@ export default {
                 ...state,
                 view: payload.view
             };
+        },
+        handleGetMore(state, { payload }) {
+            return {
+                ...state,
+                getMore: payload
+            };
         }
     },
     effects: {
+        //获得今天新闻
         *createdAsync({ payload }, { put }) {
-            const data = yield axios.get('/api/latest').then(res => res.data)
-            yield put({ type: 'created', payload:data });
+            const data = yield axios.get('/api/latest').then(res => res.data);
+
+            const date = {today:'今日'}
+
+            yield put({ type: 'created', payload: [date,...data.stories] });
+        },
+        //获得过往新闻
+        *getLastDataAsync({ payload }, { put }) {
+            const year = payload.year;
+            const month = payload.month;
+            const day = payload.day;
+
+            const date = { year, month, day };
+
+            const data = yield axios.get(`/api/before/${year}${month}${day}`).then(res => res.data);
+            yield put({ type: 'handleGetMore', payload: true });
+            yield put({ type: 'created', payload: [date, ...data.stories] });
         }
     }
 };

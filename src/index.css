@@ -50,7 +50,7 @@ p {
 }
 html,
 body {
-    overflow-x: hidden;
+    overflow: hidden;
 }
 
 /* 取消移动端默认行为 */

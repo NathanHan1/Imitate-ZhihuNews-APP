@@ -40,25 +40,28 @@ class Content extends Component {
     }
 
     componentDidMount() {
-        document.addEventListener('scroll', this.scrollHandlerBind);
+        this.refs.wrapper.addEventListener('touchmove', this.scrollHandlerBind);
 
         // 过渡动画
         const _this = this;
         setTimeout(() => {
             _this.refs.wrapper.style.left = 0;
         }, 0);
+
+        this.refs.wrapper.style.height = document.body.clientHeight + 'px';
+        
     }
 
     scrollHandler() {
-        const scrollY = window.scrollY;
+
+        const scrollY = this.refs.wrapper.scrollTop;
         const img = this.refs.img;
 
         img.style.top = (scrollY / this.lastScrollY) * this.lastImgY + 'px';
     }
 
     componentWillUnmount() {
-        document.removeEventListener('scroll', this.scrollHandlerBind);
-
+        document.removeEventListener('touchmove', this.scrollHandlerBind);
     }
 
     render() {
