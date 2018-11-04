@@ -30,7 +30,7 @@ export default {
     effects: {
         //获得今天新闻
         *createdAsync({ payload }, { put }) {
-            const data = yield axios.get('/api/latest').then(res => res.data);
+            const data = yield axios.get('http://hanzhibang.cn/zhihu/api/latest').then(res => res.data);
 
             const date = {today:'今日'}
 
@@ -44,7 +44,7 @@ export default {
 
             const date = { year, month, day };
 
-            const data = yield axios.get(`/api/before/${year}${month}${day}`).then(res => res.data);
+            const data = yield axios.get(`http://hanzhibang.cn/zhihu/api/before/${year}${month}${day}`).then(res => res.data);
             yield put({ type: 'handleGetMore', payload: true });
             yield put({ type: 'created', payload: [date, ...data.stories] });
         }

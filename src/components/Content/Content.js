@@ -19,7 +19,7 @@ class Content extends Component {
     }
 
     getContent() {
-        const url = `/api/${this.props.match.params.id}`;
+        const url = `http://hanzhibang.cn/zhihu/api/${this.props.match.params.id}`;
         axios.get(url).then(({ data: { images, title, body } }) => {
             this.setState({
                 image: images[0],
